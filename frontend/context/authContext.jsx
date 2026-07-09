@@ -15,9 +15,17 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   // States
   const [user, setUser] = useState(null);
+  const [users, setUsers] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const data = { user, setUser, isAuthenticated, setIsAuthenticated };
+  const data = {
+    user,
+    setUser,
+    users,
+    setUsers,
+    isAuthenticated,
+    setIsAuthenticated,
+  };
 
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 };

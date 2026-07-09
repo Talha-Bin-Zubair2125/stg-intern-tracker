@@ -274,6 +274,136 @@ body {
   border: 1px solid #fee2e2;
 }
 
+/* Intern Section */
+
+.intern-section {
+  margin-top: 35px;
+}
+
+.intern-section h2 {
+  margin-bottom: 20px;
+
+  color: #1e293b;
+}
+
+.intern-grid {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+  gap: 25px;
+}
+
+/* Intern Card */
+
+.intern-card {
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 18px;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  text-align: center;
+
+  transition: 0.3s;
+}
+
+.intern-card:hover {
+  transform: translateY(-8px);
+
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.intern-avatar {
+  width: 70px;
+
+  height: 70px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+
+  color: white;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 25px;
+
+  font-weight: bold;
+
+  margin: auto;
+
+  margin-bottom: 15px;
+}
+
+.intern-card h3 {
+  font-size: 21px;
+
+  margin-bottom: 8px;
+}
+
+.intern-card p {
+  color: #64748b;
+
+  margin-bottom: 8px;
+}
+
+.intern-details {
+  margin-top: 20px;
+
+  background: #f8fafc;
+
+  padding: 15px;
+
+  border-radius: 12px;
+
+  text-align: left;
+}
+
+.intern-details p {
+  font-size: 14px;
+
+  color: #334155;
+}
+
+.view-btn {
+  margin-top: 20px;
+
+  width: 100%;
+
+  padding: 12px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.view-btn:hover {
+  background: #1d4ed8;
+}
+
+@media (max-width: 700px) {
+  .intern-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Animations */
 @keyframes fadeDown {
   from {

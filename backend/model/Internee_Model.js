@@ -5,11 +5,24 @@ const InterneeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  educationStatus: {
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
     type: String,
     required: true,
   },
-  description: {
+  degreeName: {
+    type: String,
+    required: true,
+  },
+  EducationalStatus: {
+    type: String,
+    required: true,
+  },
+  designation: {
     type: String,
     required: true,
   },
@@ -19,5 +32,5 @@ const InterneeSchema = new mongoose.Schema({
   },
 });
 
-const Internee = new mongoose.Model("InterneeModel", InterneeSchema);
+const Internee = new mongoose.model("InterneeModel", InterneeSchema);
 module.exports = Internee;

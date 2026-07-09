@@ -1,4 +1,5 @@
 const Auth = require("../model/Auth_Model");
+const Internee = require("../model/Internee_Model");
 const bcrypt = require("bcryptjs");
 const joi = require("joi");
 
@@ -130,4 +131,13 @@ const Logout = async (req, res) => {
   }
 };
 
-module.exports = { login, profile, updateProfile, Logout };
+const getAllinterns = async (req, res) => {
+  try {
+    const interns = await Internee.find().select("-password");
+    res.status(200).json({ interns });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching interns", error });
+  }
+};
+
+module.exports = { login, profile, updateProfile, Logout, getAllinterns };
