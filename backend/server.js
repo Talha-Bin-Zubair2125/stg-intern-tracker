@@ -5,6 +5,7 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const ConnectDB = require("./db");
 const AuthRoute = require("./routes/Supervisor_Auth_Route");
+const Supervisor_Routes = require("./routes/Supervisor_Auth_Route");
 const interneeAuthRoute = require("./routes/Internee_Auth_Route");
 app.use(express.json());
 app.use(
@@ -26,6 +27,9 @@ app.use(cookieParser(COOKIE_SECRET));
 ConnectDB();
 
 app.use("/api/auth", AuthRoute);
+app.use("/api/add-internee", Supervisor_Routes);
+app.use("/api/get", Supervisor_Routes);
+app.use("/api/delete", Supervisor_Routes);
 app.use("/api/internee", interneeAuthRoute);
 
 app.get("/", (req, res) => {

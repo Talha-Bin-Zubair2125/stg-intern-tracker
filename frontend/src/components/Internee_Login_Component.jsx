@@ -78,6 +78,7 @@ export default function Internee_Login_Component() {
               type="email"
               placeholder="Enter your email"
               value={email}
+              autoComplete="new-email"
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
@@ -88,6 +89,7 @@ export default function Internee_Login_Component() {
               type="password"
               placeholder="Enter your password"
               value={password}
+              autoComplete="new-password"
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>

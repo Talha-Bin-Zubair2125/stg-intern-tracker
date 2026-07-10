@@ -12,7 +12,6 @@ function Update_Component() {
   const [updatedName, setUpdatedName] = useState("");
   const [updatedEmail, setUpdatedEmail] = useState("");
   const [updatedPassword, setUpdatedPassword] = useState("");
-
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -22,7 +21,6 @@ function Update_Component() {
       setLoading(true);
       setError("");
       setSuccess("");
-
       try {
         const response = await axios.get(
           "http://localhost:3000/api/auth/profile",
@@ -30,11 +28,9 @@ function Update_Component() {
             withCredentials: true,
           },
         );
-
         setUser(response.data);
         setUpdatedName(response.data.name);
         setUpdatedEmail(response.data.email);
-
         setSuccess("Profile fetched successfully!");
       } catch (error) {
         setError(error.response?.data?.message || "Error fetching profile!");
@@ -42,23 +38,19 @@ function Update_Component() {
         setLoading(false);
       }
     };
-
     FetchUserProfileData();
   }, [setUser]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
     setError("");
     setSuccess("");
-
     const data = {
       updatedName,
       updatedEmail,
       updatedPassword,
     };
-
     try {
       const response = await axios.put(
         "http://localhost:3000/api/auth/update-profile",
@@ -67,10 +59,8 @@ function Update_Component() {
           withCredentials: true,
         },
       );
-
       setUser(response.data);
       setUpdatedPassword("");
-
       setSuccess(response.data.message || "Profile updated successfully!");
     } catch (error) {
       setError(error.response?.data?.message || "Failed to update profile!");
@@ -84,23 +74,19 @@ function Update_Component() {
       <div className="update-card">
         <div className="left-panel">
           <h1>Update Profile</h1>
-
           <p>
             Keep your supervisor profile updated so interns and administrators
             always have your latest information.
           </p>
-
           <div className="tips">
             <div>👤 Update your name</div>
             <div>📧 Keep your email current</div>
             <div>🔒 Change your password anytime</div>
           </div>
         </div>
-
         <div className="right-panel">
           <form onSubmit={handleSubmit}>
             <h2>Profile Information</h2>
-
             <div className="input-group">
               <label>Name</label>
               <input
@@ -110,35 +96,32 @@ function Update_Component() {
                 placeholder="Enter updated name"
               />
             </div>
-
             <div className="input-group">
               <label>Email</label>
               <input
                 type="email"
                 value={updatedEmail}
+                autoComplete="new-email"
                 onChange={(e) => setUpdatedEmail(e.target.value)}
                 placeholder="Enter updated email"
               />
             </div>
-
             <div className="input-group">
               <label>Password</label>
               <input
                 type="password"
                 value={updatedPassword}
+                autoComplete="new-password"
                 onChange={(e) => setUpdatedPassword(e.target.value)}
                 placeholder="Enter new password"
               />
             </div>
-
             {success && <p className="success">{success}</p>}
             {error && <p className="error">{error}</p>}
-
             <div className="button-group">
               <button className="update-btn" type="submit" disabled={loading}>
                 {loading ? "Updating..." : "Update Profile"}
               </button>
-
               <button
                 className="back-btn"
                 type="button"

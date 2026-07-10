@@ -30,7 +30,7 @@ const interneeLogin = async (req, res) => {
 
   try {
     const { email, password } = req.body;
-
+    console.log("Login attempt for email:", email);
     const internee = await Internee.findOne({ email });
 
     if (!internee)
