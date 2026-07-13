@@ -7,7 +7,6 @@ import "../style/Internee_Dashboard.css";
 export default function Internee_Dashboard() {
   const { user, setUser, setIsAuthenticated } = useAuth();
   const navigate = useNavigate();
-
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -79,7 +78,6 @@ export default function Internee_Dashboard() {
             Logout
           </button>
         </header>
-
         {/* Messages */}
         <div className="message-container">
           {loading && <p className="loading">Loading...</p>}
@@ -97,7 +95,7 @@ export default function Internee_Dashboard() {
               </div>
             </div>
           )}
-
+          {/* Details */}
           <div className="details-card">
             <h3>Internee Details</h3>
             <div className="details-grid">

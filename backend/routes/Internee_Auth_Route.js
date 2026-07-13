@@ -6,11 +6,11 @@ const {
   updateProfile,
   Logout,
 } = require("../controllers/Internee_Controller");
-const { protect } = require("../middlewares/Internee_Middleware");
+const { interneeProtect } = require("../middlewares/Internee_Middleware");
 
 router.post("/login", interneeLogin);
-router.get("/profile", protect, profile);
-router.put("/update-profile", protect, updateProfile);
-router.post("/logout", protect, Logout);
+router.get("/profile", interneeProtect, profile);
+router.put("/update-profile", interneeProtect, updateProfile);
+router.post("/logout", interneeProtect, Logout);
 
 module.exports = router;

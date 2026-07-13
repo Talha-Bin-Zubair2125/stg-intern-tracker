@@ -19,7 +19,7 @@ body {
 }
 
 .update-card {
-  width: 1100px;
+  width: 950px;
   max-width: 100%;
   background: white;
   display: flex;
@@ -29,11 +29,11 @@ body {
   animation: fadeIn 0.8s ease;
 }
 
-/* Left */
+/* LEFT PANEL */
 
 .left-panel {
   flex: 1;
-  padding: 60px;
+  padding: 50px;
   background: linear-gradient(135deg, #2563eb, #4f46e5);
   color: white;
   display: flex;
@@ -42,37 +42,15 @@ body {
   position: relative;
 }
 
-.left-panel::before {
-  content: "";
-  position: absolute;
-  width: 280px;
-  height: 280px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  top: -80px;
-  left: -80px;
-}
-
-.left-panel::after {
-  content: "";
-  position: absolute;
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  bottom: -70px;
-  right: -70px;
-}
-
 .left-panel h1 {
-  font-size: 3rem;
+  font-size: 42px;
   margin-bottom: 20px;
   z-index: 1;
 }
 
 .left-panel p {
   line-height: 1.8;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
   color: #dbeafe;
   z-index: 1;
 }
@@ -80,28 +58,22 @@ body {
 .tips {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 15px;
   z-index: 1;
 }
 
 .tips div {
-  padding: 14px 18px;
+  padding: 12px 16px;
   border-left: 4px solid white;
   background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(5px);
   border-radius: 10px;
-  transition: 0.3s;
 }
 
-.tips div:hover {
-  transform: translateX(8px);
-}
-
-/* Right */
+/* RIGHT PANEL */
 
 .right-panel {
   flex: 1;
-  padding: 60px;
+  padding: 50px;
   display: flex;
   align-items: center;
 }
@@ -113,13 +85,13 @@ body {
 .right-panel h2 {
   text-align: center;
   color: #1e293b;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
 }
 
 .input-group {
   display: flex;
   flex-direction: column;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .input-group label {
@@ -129,86 +101,97 @@ body {
 }
 
 .input-group input {
-  padding: 14px 16px;
+  height: 45px;
+  padding: 0 15px;
   border-radius: 10px;
   border: 1px solid #cbd5e1;
-  transition: 0.3s;
   font-size: 15px;
 }
 
 .input-group input:focus {
   outline: none;
   border-color: #2563eb;
-  box-shadow: 0 0 18px rgba(37, 99, 235, 0.2);
 }
 
 .button-group {
   display: flex;
+  width: 100%;
   gap: 15px;
   margin-top: 25px;
 }
 
-.update-btn,
-.back-btn {
-  flex: 1;
-  border: none;
-  padding: 15px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  transition: 0.3s;
+.profile-update-button,
+.profile-back-button {
+  width: 50% !important;
+  height: 45px !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease;
 }
 
-.update-btn {
-  background: #2563eb;
-  color: white;
+/* Update */
+
+.profile-update-button {
+  background: #3498db !important;
+  color: white !important;
 }
 
-.update-btn:hover:not(:disabled) {
-  background: #1d4ed8;
+.profile-update-button:hover {
+  background: #2980b9 !important;
   transform: translateY(-3px);
 }
 
-.back-btn {
-  background: #e2e8f0;
-  color: #1e293b;
+/* Back */
+
+.profile-back-button {
+  background: #334155 !important;
+  color: white !important;
 }
 
-.back-btn:hover {
-  background: #cbd5e1;
+.profile-back-button:hover {
+  background: #1e293b !important;
   transform: translateY(-3px);
 }
 
-.update-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
+/* MESSAGE */
 
 .success {
-  color: #16a34a;
-  margin-bottom: 15px;
+  background: #dcfce7;
+  color: #15803d;
+  text-align: center;
+  padding: 3px;
+  margin-bottom: 20px;
 }
 
 .error {
+  background: #fee2e2;
   color: #dc2626;
-  margin-bottom: 15px;
+  text-align: center;
+  padding: 3px;
+  margin-bottom: 20px;
 }
 
-/* Animation */
+/* ANIMATION */
 
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
   }
 }
 
-/* Responsive */
+/* RESPONSIVE */
 
 @media (max-width: 900px) {
   .update-card {
@@ -217,14 +200,17 @@ body {
 
   .left-panel,
   .right-panel {
-    padding: 40px 30px;
+    padding: 35px;
   }
+}
 
-  .left-panel {
-    text-align: center;
-  }
-
+@media (max-width: 600px) {
   .button-group {
     flex-direction: column;
+  }
+
+  .profile-update-button,
+  .profile-back-button {
+    width: 100%;
   }
 }

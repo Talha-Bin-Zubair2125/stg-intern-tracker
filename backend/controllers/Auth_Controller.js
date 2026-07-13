@@ -117,7 +117,6 @@ const login = async (req, res) => {
 
 const profile = async (req, res) => {
   const id = req.user_Id;
-  console.log("ID:", id);
   try {
     const user = await Auth.findById(id).select("-password");
     if (!user) {
@@ -206,7 +205,6 @@ const addInternee = async (req, res) => {
 
 const getInterneeProfileById = async (req, res) => {
   const interneeId = req.params.id;
-  console.log("Fetching profile for internee ID:", interneeId);
   try {
     if (!mongoose.Types.ObjectId.isValid(interneeId)) {
       return res.status(400).json({ message: "Invalid internee id" });

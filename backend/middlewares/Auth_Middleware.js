@@ -1,5 +1,6 @@
-const protect = (req, res, next) => {
+const supervisorProtect = (req, res, next) => {
   const user_Id = req.signedCookies.user_Id;
+  console.log("Supervisor ID from cookies:", user_Id);
   try {
     // checking user exists
     if (!user_Id) {
@@ -12,4 +13,4 @@ const protect = (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+module.exports = { supervisorProtect };

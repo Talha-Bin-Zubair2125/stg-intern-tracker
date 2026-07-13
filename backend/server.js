@@ -7,6 +7,7 @@ const ConnectDB = require("./db");
 const AuthRoute = require("./routes/Supervisor_Auth_Route");
 const Supervisor_Routes = require("./routes/Supervisor_Auth_Route");
 const interneeAuthRoute = require("./routes/Internee_Auth_Route");
+const reportRoute = require("./routes/Report_Route");
 app.use(express.json());
 app.use(
   cors({
@@ -19,18 +20,21 @@ app.use(
 const PORT = process.env.PORT;
 const COOKIE_SECRET = process.env.COOKIE_SECRET;
 
-console.log("PORT#", PORT);
-console.log("Cookie Secret:", COOKIE_SECRET);
-
 app.use(cookieParser(COOKIE_SECRET));
-
+app.use(
+  express.urlencoded({
+    extended: true,
+  }),
+);
 ConnectDB();
 
+app.use("/uploads", express.static("uploads"));
 app.use("/api/auth", AuthRoute);
 app.use("/api/add-internee", Supervisor_Routes);
 app.use("/api/get", Supervisor_Routes);
 app.use("/api/delete", Supervisor_Routes);
 app.use("/api/internee", interneeAuthRoute);
+app.use("/api/report", reportRoute);
 
 app.get("/", (req, res) => {
   res.send("Server is Running!");

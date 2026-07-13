@@ -6,10 +6,8 @@ import "../style/Add_Internee_Component.css";
 
 export default function Add_Internee_Component() {
   const { setUser, setIsAuthenticated } = useAuth();
-
   const navigate = useNavigate();
 
-  // States
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,16 +15,17 @@ export default function Add_Internee_Component() {
   const [EducationalStatus, setEducationalStatus] = useState("");
   const [designation, setDesignation] = useState("");
 
-  // Messages
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setLoading(true);
-    setError("");
     setSuccess("");
+    setError("");
+
     try {
       const response = await axios.post(
         "http://localhost:3000/api/add-internee/add",
@@ -42,17 +41,20 @@ export default function Add_Internee_Component() {
           withCredentials: true,
         },
       );
+
       setUser(response.data.internee);
       setIsAuthenticated(true);
+
       setSuccess(response.data.message || "Internee added successfully!");
+
       setName("");
       setEmail("");
       setPassword("");
       setDegreeName("");
       setEducationalStatus("");
       setDesignation("");
-    } catch (error) {
-      setError(error.response?.data?.message || "Failed to add internee!");
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to add internee!");
     } finally {
       setLoading(false);
     }
@@ -61,7 +63,6 @@ export default function Add_Internee_Component() {
   return (
     <div className="internee-page">
       <div className="internee-card">
-        {/* Header */}
         <div className="card-header">
           <h1>Add New Internee</h1>
           <p>
@@ -69,13 +70,11 @@ export default function Add_Internee_Component() {
           </p>
         </div>
 
-        {/* Form */}
         <div className="card-body">
           <form onSubmit={handleSubmit}>
             <div className="form-grid">
               <div className="input-group">
                 <label>Full Name</label>
-
                 <input
                   type="text"
                   placeholder="Enter full name"
@@ -87,7 +86,6 @@ export default function Add_Internee_Component() {
 
               <div className="input-group">
                 <label>Email Address</label>
-
                 <input
                   type="email"
                   placeholder="Enter email"
@@ -100,7 +98,6 @@ export default function Add_Internee_Component() {
 
               <div className="input-group">
                 <label>Password</label>
-
                 <input
                   type="password"
                   placeholder="Enter password"
@@ -113,7 +110,6 @@ export default function Add_Internee_Component() {
 
               <div className="input-group">
                 <label>Degree</label>
-
                 <input
                   type="text"
                   placeholder="BS Computer Science"
@@ -125,7 +121,6 @@ export default function Add_Internee_Component() {
 
               <div className="input-group">
                 <label>Educational Status</label>
-
                 <input
                   type="text"
                   placeholder="Graduate / Undergraduate"
@@ -137,7 +132,6 @@ export default function Add_Internee_Component() {
 
               <div className="input-group">
                 <label>Designation</label>
-
                 <input
                   type="text"
                   placeholder="Frontend Developer"
@@ -147,21 +141,23 @@ export default function Add_Internee_Component() {
                 />
               </div>
             </div>
-
             {error && <div className="message error">{error}</div>}
             {success && <div className="message success">{success}</div>}
-
-            <div className="button-group">
-              <button className="submit-btn" type="submit" disabled={loading}>
-                {loading ? "Adding Internee..." : "Add Internee"}
+            <div className="internee-btn-container">
+              <button
+                type="submit"
+                className="internee-add-btn"
+                disabled={loading}
+              >
+                {loading ? "Adding..." : "Add Internee"}
               </button>
 
               <button
-                className="back-btn"
                 type="button"
+                className="internee-back-btn"
                 onClick={() => navigate("/dashboard")}
               >
-                Back to Dashboard
+                Back
               </button>
             </div>
           </form>

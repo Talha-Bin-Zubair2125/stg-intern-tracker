@@ -143,6 +143,7 @@ export default function Internee_Update_Component() {
                 value={updatedDegreeName}
                 onChange={(e) => setUpdatedDegreeName(e.target.value)}
                 placeholder="Enter degree name"
+                disabled
               />
             </div>
             <div className="input-group">
@@ -152,6 +153,7 @@ export default function Internee_Update_Component() {
                 value={updatedEducationalStatus}
                 onChange={(e) => setUpdatedEducationalStatus(e.target.value)}
                 placeholder="Example: BSCS Semester 7"
+                disabled
               />
             </div>
             <div className="input-group">
@@ -161,16 +163,21 @@ export default function Internee_Update_Component() {
                 value={updatedDesignation}
                 onChange={(e) => setUpdatedDesignation(e.target.value)}
                 placeholder="Enter designation"
+                disabled
               />
             </div>
             {success && <p className="success">{success}</p>}
             {error && <p className="error">{error}</p>}
             <div className="button-group">
-              <button className="update-btn" type="submit" disabled={loading}>
+              <button
+                className="profile-update-button"
+                type="submit"
+                disabled={loading}
+              >
                 {loading ? "Updating..." : "Update Profile"}
               </button>
               <button
-                className="back-btn"
+                className="profile-back-button"
                 type="button"
                 onClick={() => navigate("/internee-dashboard")}
               >
