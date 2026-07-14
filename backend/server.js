@@ -8,6 +8,7 @@ const AuthRoute = require("./routes/Supervisor_Auth_Route");
 const Supervisor_Routes = require("./routes/Supervisor_Auth_Route");
 const interneeAuthRoute = require("./routes/Internee_Auth_Route");
 const reportRoute = require("./routes/Report_Route");
+const commentRoute = require("./routes/Comment_Route");
 app.use(express.json());
 app.use(
   cors({
@@ -35,6 +36,7 @@ app.use("/api/get", Supervisor_Routes);
 app.use("/api/delete", Supervisor_Routes);
 app.use("/api/internee", interneeAuthRoute);
 app.use("/api/report", reportRoute);
+app.use("/api/comment", commentRoute);
 
 app.get("/", (req, res) => {
   res.send("Server is Running!");

@@ -119,8 +119,18 @@ function Update_Component() {
             {success && <p className="success">{success}</p>}
             {error && <p className="error">{error}</p>}
             <div className="button-group">
-              <button className="profile-update-button" onClick={()=>navigate("/updateprofile")}>Update Profile</button>
-              <button className="profile-back-button" onClick={()=>navigate("/dashboard")}>Back</button>
+              <button
+                className="profile-update-button"
+                onClick={() => navigate("/updateprofile")}
+              >
+                Update Profile
+              </button>
+              <button
+                className="profile-back-button"
+                onClick={() => navigate("/dashboard")}
+              >
+                Back
+              </button>
             </div>
           </form>
         </div>

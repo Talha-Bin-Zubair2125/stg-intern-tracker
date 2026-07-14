@@ -124,17 +124,26 @@ export default function Internee_Dashboard() {
             >
               Update Profile
             </button>
+
             <button
               className="report-btn"
               onClick={() => navigate("/internee-add-report")}
             >
               Add Report
             </button>
+
             <button
-              className="view-btn"
+              className="submitted-btn"
               onClick={() => navigate("/internee-submitted-reports")}
             >
               View Submitted Reports
+            </button>
+
+            <button
+              className="comments-btn"
+              onClick={() => navigate("/internee-comments")}
+            >
+              View Comments
             </button>
           </div>
         </div>

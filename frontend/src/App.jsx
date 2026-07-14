@@ -8,6 +8,8 @@ import Add_Report_Component from "./components/Add_Report_Component";
 import View_All_Submitted_Reports_Component from "./components/View_All_Submitted_Reports_Component";
 import Supervisor_Dashboard from "./pages/supervisor_dashboard";
 import Internee_View_Profile from "./components/Internee_View_Profile";
+import View_Comments_Component from "./components/View_Comments_Component";
+import Add_Comments_Component from "./components/Add_Comments_Component";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 function App() {
@@ -25,6 +27,8 @@ function App() {
           <Route path="/dashboard" element={<Supervisor_Dashboard />} />
           <Route path="/internee-add-report" element={<Add_Report_Component />} />
           <Route path="/internee-submitted-reports" element={<View_All_Submitted_Reports_Component />} />
+          <Route path="/add-comments" element={<Add_Comments_Component />} />
+          <Route path="/internee-comments" element={<View_Comments_Component />} />
         </Routes>
       </BrowserRouter>
     </>

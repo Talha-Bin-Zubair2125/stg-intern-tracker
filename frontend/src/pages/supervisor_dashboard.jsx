@@ -145,11 +145,19 @@ export default function Supervisor_Dashboard() {
           >
             Update Profile
           </button>
+
           <button
             className="secondary-btn"
             onClick={() => navigate("/add-internee")}
           >
             Add Intern
+          </button>
+
+          <button
+            className="comments-btn"
+            onClick={() => navigate("/add-comments")}
+          >
+            Add Comments
           </button>
         </div>
         <section className="table-section">
