@@ -63,6 +63,20 @@ export default function Supervisor_Dashboard() {
     }
   };
 
+  const deleteReport = async (id, fileName) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/report/${id}`, {
+        withCredentials: true,
+      });
+      setReports((prevReports) =>
+        prevReports.filter((report) => report._id !== id),
+      );
+      setSuccess(`Report ${fileName} deleted successfully`);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to delete report");
+    }
+  };
+
   const handleLogout = async () => {
     try {
       await axios.post(
@@ -202,14 +216,25 @@ export default function Supervisor_Dashboard() {
                     <td>{report.originalFileName}</td>
                     <td>{new Date(report.createdAt).toLocaleDateString()}</td>
                     <td>
-                      <button
-                        className="download-btn"
-                        onClick={() =>
-                          downloadReport(report._id, report.originalFileName)
-                        }
-                      >
-                        Download
-                      </button>
+                      <div className="report-actions">
+                        <button
+                          className="download-btn"
+                          onClick={() =>
+                            downloadReport(report._id, report.originalFileName)
+                          }
+                        >
+                          Download
+                        </button>
+
+                        <button
+                          className="delete-btn"
+                          onClick={() =>
+                            deleteReport(report._id, report.originalFileName)
+                          }
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

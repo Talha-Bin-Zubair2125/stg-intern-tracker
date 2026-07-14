@@ -17,5 +17,6 @@ router.get("/all", supervisorProtect, getAllReports);
 router.get("/download/:id", supervisorProtect, downloadReport);
 router.get("/interndownload/:id", interneeProtect, downloadReport);
 router.delete("/:id", supervisorProtect, deleteReport);
+router.delete("/delete/:id", interneeProtect, deleteReport);
 
 module.exports = router;

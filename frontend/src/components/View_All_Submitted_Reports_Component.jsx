@@ -52,6 +52,24 @@ export default function View_All_Submitted_Reports_Component() {
     }
   };
 
+  const deleteReport = async (id, fileName) => {
+    if (
+      !window.confirm(
+        `Are you sure you want to delete the report: ${fileName}?`,
+      )
+    ) {
+      return;
+    }
+    try {
+      await axios.delete(`http://localhost:3000/api/report/delete/${id}`, {
+        withCredentials: true,
+      });
+      setReports(reports.filter((report) => report._id !== id));
+    } catch (error) {
+      setError(error.response?.data?.message || "Delete failed");
+    }
+  };
+
   return (
     <div className="submitted-report-page">
       <div className="submitted-report-card">
@@ -84,14 +102,24 @@ export default function View_All_Submitted_Reports_Component() {
                     </td>
                     <td>{new Date(report.createdAt).toLocaleDateString()}</td>
                     <td>
-                      <button
-                        className="download-btn"
-                        onClick={() =>
-                          handleDownload(report._id, report.originalFileName)
-                        }
-                      >
-                        Download
-                      </button>
+                      <div className="report-actions">
+                        <button
+                          className="download-btn"
+                          onClick={() =>
+                            handleDownload(report._id, report.originalFileName)
+                          }
+                        >
+                          Download
+                        </button>
+                        <button
+                          className="delete-btn"
+                          onClick={() =>
+                            deleteReport(report._id, report.originalFileName)
+                          }
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
