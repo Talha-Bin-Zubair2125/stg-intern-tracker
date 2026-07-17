@@ -1,8 +1,28 @@
 const Comment = require("../model/Comment_Model");
+const calculateScore = require("../utils/calculateScore");
+const analyzeComments = require("../services/groqService");
 const joi = require("joi");
 
 // Validation schema for comment
 const commentSchema = joi.object({
+  interneeId: joi.string().trim().length(24).hex().required().messages({
+    "string.base": "Internee ID must be a string",
+    "string.empty": "Please select an internee",
+    "string.length": "Invalid internee ID",
+    "string.hex": "Invalid internee ID",
+    "any.required": "Internee is required",
+  }),
+  comment: joi.string().trim().min(3).max(500).required().messages({
+    "string.base": "Comment must be a string",
+    "string.empty": "Comment cannot be empty",
+    "string.min": "Comment must be at least 3 characters long",
+    "string.max": "Comment cannot exceed 500 characters",
+    "any.required": "Comment is required",
+  }),
+});
+
+// Validation schema for editing a comment
+const editCommentSchema = joi.object({
   interneeId: joi.string().trim().length(24).hex().required().messages({
     "string.base": "Internee ID must be a string",
     "string.empty": "Please select an internee",
@@ -148,9 +168,130 @@ const getMyComments = async (req, res) => {
   }
 };
 
+const editComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { comment } = req.body;
+
+    if (!comment || comment.trim().length < 3) {
+      return res.status(400).json({
+        success: false,
+        message: "Comment must be at least 3 characters long",
+      });
+    }
+
+    const updatedComment = await Comment.findByIdAndUpdate(
+      id,
+      {
+        comment: comment.trim(),
+      },
+      {
+        new: true,
+      },
+    ).populate("interneeId", "name email");
+
+    if (!updatedComment) {
+      return res.status(404).json({
+        success: false,
+        message: "Comment not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Comment updated successfully",
+      comment: updatedComment,
+    });
+  } catch (error) {
+    console.error("Error updating comment:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server error while updating comment",
+    });
+  }
+};
+
+const deleteComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedComment = await Comment.findByIdAndDelete(id);
+
+    if (!deletedComment) {
+      return res.status(404).json({
+        success: false,
+        message: "Comment not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Comment deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error deleting comment:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Server error while deleting comment",
+    });
+  }
+};
+
+const getCommentAnalytics = async (req, res) => {
+  try {
+    const comments = await Comment.find()
+      .populate("interneeId", "name email")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    if (!comments.length) {
+      return res.status(200).json({
+        success: true,
+        message: "No comments found",
+        analytics: {
+          performanceScore: 0,
+          positive: 0,
+          neutral: 0,
+          negative: 0,
+          summary: "No comments available.",
+          improvements: [],
+          comments: [],
+        },
+      });
+    }
+
+    // Call Groq AI
+    const analysis = await analyzeComments(comments);
+
+    // Calculate performance score
+    const performanceScore = calculateScore(analysis);
+
+    return res.status(200).json({
+      success: true,
+      message: "Comment analytics generated successfully",
+      analytics: {
+        performanceScore,
+        ...analysis,
+      },
+    });
+  } catch (error) {
+    console.error("Analytics Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to analyze comments.",
+    });
+  }
+};
+
 module.exports = {
   addComment,
   getAllComments,
   getCommentsByDate,
   getMyComments,
+  editComment,
+  deleteComment,
+  getCommentAnalytics,
 };

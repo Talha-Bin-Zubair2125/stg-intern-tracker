@@ -128,38 +128,49 @@ export default function Supervisor_Dashboard() {
             </div>
           </div>
         )}
-        <div className="stats">
+        <div className="stats-grid">
           <div className="stat-card">
-            <h3>Total Interns</h3>
-            <h1>{users?.length || 0}</h1>
+            <span className="stat-icon">👨‍🎓</span>
+            <div>
+              <h3>Total Interns</h3>
+              <h1>{users?.length || 0}</h1>
+            </div>
           </div>
+
           <div className="stat-card">
-            <h3>Total Reports</h3>
-            <h1>{reports?.length || 0}</h1>
+            <span className="stat-icon">📄</span>
+            <div>
+              <h3>Total Reports</h3>
+              <h1>{reports?.length || 0}</h1>
+            </div>
           </div>
         </div>
-        <div className="actions">
-          <button
-            className="primary-btn"
-            onClick={() => navigate("/updateprofile")}
-          >
-            Update Profile
-          </button>
-
-          <button
-            className="secondary-btn"
-            onClick={() => navigate("/add-internee")}
-          >
-            Add Intern
-          </button>
-
-          <button
-            className="comments-btn"
-            onClick={() => navigate("/add-comments")}
-          >
-            Add Comments
-          </button>
-        </div>
+        <section className="actions-section">
+          <h2>Quick Actions</h2>
+          <div className="actions-grid">
+            <button
+              className="action-btn blue"
+              onClick={() => navigate("/updateprofile")}
+            >
+              <span className="action-icon">👤</span>
+              <span>Update Profile</span>
+            </button>
+            <button
+              className="action-btn green"
+              onClick={() => navigate("/add-internee")}
+            >
+              <span className="action-icon">➕</span>
+              <span>Add Intern</span>
+            </button>
+            <button
+              className="action-btn orange"
+              onClick={() => navigate("/add-comments")}
+            >
+              <span className="action-icon">💬</span>
+              <span>Add Comments</span>
+            </button>
+          </div>
+        </section>
         <section className="table-section">
           <h2>Intern List</h2>
           <div className="table-wrapper">
@@ -214,7 +225,6 @@ export default function Supervisor_Dashboard() {
                   <th>Action</th>
                 </tr>
               </thead>
-
               <tbody>
                 {reports?.map((report, index) => (
                   <tr key={report._id}>

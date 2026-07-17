@@ -11,6 +11,8 @@ export default function Add_Comments_Component() {
   const [selectedUserId, setSelectedUserId] = useState("");
   const [selectDate, setSelectDate] = useState("");
   const [comments, setComments] = useState([]);
+  const [editId, setEditId] = useState(null);
+  const [editComment, setEditComment] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -44,8 +46,8 @@ export default function Add_Comments_Component() {
       await axios.post(
         "http://localhost:3000/api/comment/add",
         {
-           interneeId: selectedUserId,
-           comment
+          interneeId: selectedUserId,
+          comment,
         },
         {
           withCredentials: true,
@@ -61,21 +63,6 @@ export default function Add_Comments_Component() {
     }
   };
 
-  const applyFilter = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/api/comment/by-date/${selectDate}`,
-        {
-          withCredentials: true,
-        },
-      );
-      setComments(response.data.comments || []);
-    } catch (error) {
-      setError(error.response?.data?.message || "Failed to apply filter");
-    }
-  };
-
   const fetchAllComments = async () => {
     try {
       const response = await axios.get(
@@ -87,6 +74,70 @@ export default function Add_Comments_Component() {
       setComments(response.data.comments || []);
     } catch (error) {
       setError(error.response?.data?.message || "Failed to fetch comments");
+    }
+  };
+
+  const applyFilter = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/comment/by-date/${selectDate}`,
+        {
+          withCredentials: true,
+        },
+      );
+      setComments(response.data.comments || []);
+    } catch (error) {
+      setError(error.response?.data?.message || "Failed to filter comments");
+    }
+  };
+
+  const handleEdit = (item) => {
+    setEditId(item._id);
+    setEditComment(item.comment);
+  };
+
+  const updateComment = async (id) => {
+    try {
+      await axios.put(
+        `http://localhost:3000/api/comment/edit/${id}`,
+        {
+          interneeId: selectedUserId,
+          comment: editComment,
+        },
+        {
+          withCredentials: true,
+        },
+      );
+      setComments(
+        comments.map((item) =>
+          item._id === id
+            ? {
+                ...item,
+                comment: editComment,
+              }
+            : item,
+        ),
+      );
+      setEditId(null);
+      setEditComment("");
+      setSuccess("Comment updated successfully");
+      setError("");
+    } catch (error) {
+      setError(error.response?.data?.message || "Failed to update comment");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/comment/delete/${id}`, {
+        withCredentials: true,
+      });
+      setComments(comments.filter((item) => item._id !== id));
+      setSuccess("Comment deleted successfully");
+      setError("");
+    } catch (error) {
+      setError(error.response?.data?.message || "Failed to delete comment");
     }
   };
 
@@ -113,7 +164,7 @@ export default function Add_Comments_Component() {
               </option>
             ))}
           </select>
-          <button type="submit" className="primary-btn">
+          <button className="primary-btn" type="submit">
             Submit Comment
           </button>
         </form>
@@ -124,9 +175,7 @@ export default function Add_Comments_Component() {
               value={selectDate}
               onChange={(e) => setSelectDate(e.target.value)}
             />
-            <button type="submit" className="filter-btn">
-              Filter
-            </button>
+            <button className="filter-btn">Filter</button>
           </form>
           <button className="all-btn" onClick={fetchAllComments}>
             Show All Comments
@@ -141,6 +190,7 @@ export default function Add_Comments_Component() {
                 <th>Email</th>
                 <th>Comment</th>
                 <th>Date</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -150,13 +200,48 @@ export default function Add_Comments_Component() {
                     <td>{index + 1}</td>
                     <td>{item.interneeId?.name}</td>
                     <td>{item.interneeId?.email}</td>
-                    <td>{item.comment}</td>
+                    <td>
+                      {editId === item._id ? (
+                        <textarea
+                          className="edit-comment-box"
+                          value={editComment}
+                          onChange={(e) => setEditComment(e.target.value)}
+                        />
+                      ) : (
+                        item.comment
+                      )}
+                    </td>
                     <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                    <td>
+                      <div className="comment-action-group">
+                        {editId === item._id ? (
+                          <button
+                            className="comment-save-btn"
+                            onClick={() => updateComment(item._id)}
+                          >
+                            Save
+                          </button>
+                        ) : (
+                          <button
+                            className="comment-edit-btn"
+                            onClick={() => handleEdit(item)}
+                          >
+                            Edit
+                          </button>
+                        )}
+                        <button
+                          className="comment-delete-btn"
+                          onClick={() => handleDelete(item._id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5">No comments found.</td>
+                  <td colSpan="6">No comments found.</td>
                 </tr>
               )}
             </tbody>
